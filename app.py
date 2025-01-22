@@ -1,22 +1,31 @@
+import os
+from groq import Groq
+
+
+print("hello")
+# Initialize Groq client
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))  # Use environment variable for security
+print(client.api_key)
+
+def get_chat_completion(prompt):
+    chat_completion = client.chat.completions.create(
+        messages=[{"role": "user", "content": prompt}],
+        model="llama3-8b-8192"  # Ensure this model is available in your account
+    )
+
+    print(chat_completion.choices[0].message.content)
+    return chat_completion.choices[0].message.content
+
+
 import streamlit as st
-import openai
 
-# Set up OpenAI API key (replace with your actual key)
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+st.title("Groq Chatbot")
 
-st.title("Chat with AI")
+user_input = st.text_input("You: ", "")
 
-# Create a text input for user queries
-user_input = st.text_input("You: ")
+if user_input:
+    bot_response = get_chat_completion(user_input)
+    st.text(f"Bot: {bot_response}")
 
-if st.button("Send"):
-    if user_input:
-        # Call OpenAI API to get a response
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # or "gpt-4" if you have access
-            messages=[{"role": "user", "content": user_input}]
-        )
-        # Display the AI's response
-        st.write(f"AI: {response['choices'][0]['message']['content']}")
-    else:
-        st.write("Please enter a message.")
+
+
