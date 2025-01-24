@@ -10,7 +10,8 @@ print(client.api_key)
 def get_chat_completion(prompt):
     chat_completion = client.chat.completions.create(
         messages=[{"role": "user", "content": prompt}],
-        model="llama3-8b-8192"  # Ensure this model is available in your account
+        model="llama3-8b-8192",
+        temperature=0.7,
     )
 
     print(chat_completion.choices[0].message.content)
@@ -19,13 +20,22 @@ def get_chat_completion(prompt):
 
 import streamlit as st
 
-st.title("Groq Chatbot")
+st.title("Bob The Builder")
+st.subheader("What are we building today?")
 
 user_input = st.text_input("You: ", "")
 
 if user_input:
-    bot_response = get_chat_completion(user_input)
-    st.text(f"Bot: {bot_response}")
+    if 'fix' in user_input.lower() or 'build' in user_input.lower():
+        # Modify the prompt for a humorous response
+        prompt = f"{user_input} (Please respond in a light and funny tone.)"
+
+        bot_response = get_chat_completion(user_input)
+        if bot_response:
+            st.text(f"Bob: {bot_response}")
+
+    else:
+        st.write("I can only help with questions that involve fixing or building! Please try again.")
 
 
 
