@@ -35,7 +35,7 @@ if user_input:
             st.text(f"Bob: {bot_response}")
 
     else:
-        st.write("I can only help with questions that involve fixing or building! Please try again.")
+        st.write("I can only help with questions that involve fixing or building! Try again, Buddy")
 
 
 
