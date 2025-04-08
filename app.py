@@ -27,7 +27,7 @@ user_input = st.text_input("You: ", "")
 
 if user_input:
     if 'fix' in user_input.lower() or 'build' in user_input.lower():
-        # Modify the prompt for a humorous response
+
         prompt = f"{user_input} (Please respond in a light and funny tone.)"
 
         bot_response = get_chat_completion(user_input)
